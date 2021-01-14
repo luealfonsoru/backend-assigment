@@ -1,5 +1,5 @@
 import { Response } from 'supertest';
-import { IUser } from '@entities/User';
+import { IUser } from 'src/schemas/User';
 
 
 export interface IResponse extends Response {

@@ -1,5 +1,4 @@
 import morgan from 'morgan';
-import path from 'path';
 import helmet from 'helmet';
 
 import express, { NextFunction, Request, Response } from 'express';
@@ -8,6 +7,7 @@ import 'express-async-errors';
 
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
+import mongoose from 'mongoose';
 
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
@@ -33,6 +33,15 @@ if (process.env.NODE_ENV === 'production') {
 
 // Add APIs
 app.use('/api', BaseRouter);
+
+// Add connection to database
+mongoose.connect(`${process.env.MONGO_URI}/assignment`,{
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, ()=>{
+    logger.info('Database connection: OK')
+})
 
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

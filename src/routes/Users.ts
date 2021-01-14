@@ -1,7 +1,7 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 
-import UserDao from '@daos/User/UserDao.mock';
+import UserDao from '@daos/User/UserDao';
 import { paramMissingError, IRequest } from '@shared/constants';
 
 const router = Router();
@@ -26,14 +26,16 @@ router.get('/all', async (req: Request, res: Response) => {
  ******************************************************************************/
 
 router.post('/add', async (req: IRequest, res: Response) => {
-    const { user } = req.body;
+    const user = req.body.username;
     if (!user) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
     await userDao.add(user);
-    return res.status(CREATED).end();
+    return res.status(CREATED).json({
+        message: "success"
+    });
 });
 
 
@@ -42,17 +44,16 @@ router.post('/add', async (req: IRequest, res: Response) => {
  *                       Update - "PUT /api/users/update"
  ******************************************************************************/
 
-router.put('/update', async (req: IRequest, res: Response) => {
-    const { user } = req.body;
-    if (!user) {
-        return res.status(BAD_REQUEST).json({
-            error: paramMissingError,
-        });
-    }
-    user.id = Number(user.id);
-    await userDao.update(user);
-    return res.status(OK).end();
-});
+// router.put('/update', async (req: IRequest, res: Response) => {
+//     const username = req.body.username;
+//     if (!username) {
+//         return res.status(BAD_REQUEST).json({
+//             error: paramMissingError,
+//         });
+//     }
+//     await userDao.update(user);
+//     return res.status(OK).end();
+// });
 
 
 
@@ -62,7 +63,7 @@ router.put('/update', async (req: IRequest, res: Response) => {
 
 router.delete('/delete/:id', async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    await userDao.delete(Number(id));
+    await userDao.delete(id);
     return res.status(OK).end();
 });
 

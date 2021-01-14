@@ -1,33 +1,30 @@
-import { IUser } from '@entities/User';
-
-
+import { User, IUser} from '@schemas/User';
+import {v4 as uuidv4} from 'uuid'
 
 export interface IUserDao {
-    getOne: (email: string) => Promise<IUser | null>;
-    getAll: () => Promise<IUser[]>;
-    add: (user: IUser) => Promise<void>;
-    update: (user: IUser) => Promise<void>;
-    delete: (id: number) => Promise<void>;
+    getOne: (username: string) => Promise<any>;
+    getAll: () => Promise<any>;
+    add: (username: string) => Promise<any>;
+    update: (user: IUser) => Promise<any>;
+    delete: (id: string) => Promise<any>;
 }
 
 class UserDao implements IUserDao {
 
 
     /**
-     * @param email
+     * @param username
      */
-    public getOne(email: string): Promise<IUser | null> {
-        // TODO
-        return Promise.resolve(null);
+    public async getOne(username: string): Promise<any> {
+        return await User.find({username})
     }
 
 
     /**
      *
      */
-    public getAll(): Promise<IUser[]> {
-         // TODO
-        return Promise.resolve([]);
+    public async getAll(): Promise<any> {
+        return await User.find({})
     }
 
 
@@ -35,9 +32,9 @@ class UserDao implements IUserDao {
      *
      * @param user
      */
-    public async add(user: IUser): Promise<void> {
-         // TODO
-        return Promise.resolve(undefined);
+    public async add(username: string): Promise<any> {
+        const newUser = User.build({username, id: uuidv4()})
+        return await newUser.save()
     }
 
 
@@ -55,7 +52,7 @@ class UserDao implements IUserDao {
      *
      * @param id
      */
-    public async delete(id: number): Promise<void> {
+    public async delete(id: string): Promise<void> {
          // TODO
         return Promise.resolve(undefined);
     }
