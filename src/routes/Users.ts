@@ -11,18 +11,24 @@ const { BAD_REQUEST, CREATED, OK, NOT_FOUND } = StatusCodes;
 
 
 /******************************************************************************
- *                      Get All Users - "GET /api/users/all"
+ *                      Get All Users - "GET /api/users"
  ******************************************************************************/
 
 router.get('/', async (req: Request, res: Response) => {
-    const users = await userDao.getAll();
+    const { username } = req.query
+    let users
+    if(username){
+        users = await userDao.getOne(String(username));
+    }else{
+        users = await userDao.getAll();
+    }
     return res.status(OK).json({ users });
 });
 
 
 
 /******************************************************************************
- *                       Add One - "POST /api/users/add"
+ *                       Add One - "POST /api/users"
  ******************************************************************************/
 
 router.post('/', async (req: IRequest, res: Response) => {
@@ -41,7 +47,7 @@ router.post('/', async (req: IRequest, res: Response) => {
 
 
 /******************************************************************************
- *                       Update - "PUT /api/users/update"
+ *                       Update - "PUT /api/users"
  ******************************************************************************/
 
 router.put('/', async (req: IRequest, res: Response) => {

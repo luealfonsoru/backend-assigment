@@ -34,15 +34,6 @@ if (process.env.NODE_ENV === 'production') {
 // Add APIs
 app.use('/api', BaseRouter);
 
-// Add connection to database
-mongoose.connect(`${process.env.MONGO_URI}/assignment`,{
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, ()=>{
-    logger.info('Database connection: OK')
-})
-
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

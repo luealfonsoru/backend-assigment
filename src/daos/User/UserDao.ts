@@ -15,7 +15,8 @@ class UserDao implements IUserDao {
      * @param username
      */
     public async getOne(username: string): Promise<any> {
-        return await User.find({ username })
+        console.log(username)
+        return await User.findOne({ username: username }).exec()
     }
 
 
