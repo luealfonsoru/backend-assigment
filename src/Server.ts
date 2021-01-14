@@ -1,4 +1,3 @@
-import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import path from 'path';
 import helmet from 'helmet';
@@ -21,7 +20,6 @@ const { BAD_REQUEST } = StatusCodes;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cookieParser());
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {
@@ -43,20 +41,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     return res.status(BAD_REQUEST).json({
         error: err.message,
     });
-});
-
-
-
-/************************************************************************************
- *                              Serve front-end content
- ***********************************************************************************/
-
-const viewsDir = path.join(__dirname, 'views');
-app.set('views', viewsDir);
-const staticDir = path.join(__dirname, 'public');
-app.use(express.static(staticDir));
-app.get('*', (req: Request, res: Response) => {
-    res.sendFile('index.html', {root: viewsDir});
 });
 
 // Export express instance
