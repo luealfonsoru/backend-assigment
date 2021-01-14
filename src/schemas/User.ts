@@ -2,7 +2,10 @@ import { Schema, Model, model } from 'mongoose'
 
 interface IUser {
     username: string,
-    id: string
+    role: string,
+    pastIssuesList?: Array<any>,
+    bussy: boolean,
+    issueSolving: any
 }
 
 interface UserModelInterface extends Model<any> {
@@ -14,9 +17,22 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    id: {
+    role: {
         type: String,
         required: true
+    },
+    pastIssuesList: {
+        type: Array,
+        required: false
+    },
+    bussy: {
+        type: Boolean,
+        required: false
+    },
+    issueSolving: {
+        type: Object,
+        required: false
+
     }
 })
 

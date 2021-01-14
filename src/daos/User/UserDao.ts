@@ -1,12 +1,11 @@
-import { User, IUser} from '@schemas/User';
-import {v4 as uuidv4} from 'uuid'
+import { User, IUser } from '@schemas/User';
+import { v4 as uuidv4 } from 'uuid'
 
 export interface IUserDao {
     getOne: (username: string) => Promise<any>;
     getAll: () => Promise<any>;
-    add: (username: string) => Promise<any>;
+    add: (user: IUser) => Promise<any>;
     update: (user: IUser) => Promise<any>;
-    delete: (id: string) => Promise<any>;
 }
 
 class UserDao implements IUserDao {
@@ -16,7 +15,7 @@ class UserDao implements IUserDao {
      * @param username
      */
     public async getOne(username: string): Promise<any> {
-        return await User.find({username})
+        return await User.find({ username })
     }
 
 
@@ -32,8 +31,8 @@ class UserDao implements IUserDao {
      *
      * @param user
      */
-    public async add(username: string): Promise<any> {
-        const newUser = User.build({username, id: uuidv4()})
+    public async add(user: IUser): Promise<any> {
+        const newUser = User.build(user)
         return await newUser.save()
     }
 
@@ -43,19 +42,16 @@ class UserDao implements IUserDao {
      * @param user
      */
     public async update(user: IUser): Promise<void> {
-         // TODO
-        return Promise.resolve(undefined);
+        const updateUser = await User.findOneAndUpdate({ username: user.username }, {
+            $set: { ...user }
+        })
+        if(updateUser === null){
+            throw "User not found"
+        }
+        return updateUser
     }
 
 
-    /**
-     *
-     * @param id
-     */
-    public async delete(id: string): Promise<void> {
-         // TODO
-        return Promise.resolve(undefined);
-    }
 }
 
 export default UserDao;
