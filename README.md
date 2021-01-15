@@ -16,6 +16,13 @@ Ejecutar "npm run {comando}" en la raiz del proyecto; donde "comando" es alguno 
 
 La configuración inicial de este proyecto se realizó usando "express-generator-typescript"
 
+## Colección de Postman
+
+La colección de Postman con los endpoint de la API puede encontrarse [aquí] (https://www.getpostman.com/collections/2d34b46119d1166a9626). Se debe crear una variable de entorno llamada {{url}} cuyo valor es "http://localhost:3000" o en su defecto, reemplazar {{url}} por "http://localhost:3000" en cada una de las solicitudes para las pruebas en local con la configuración 
+
+## Base de datos
+Se decisió usar Mongoose por facilidad, una única funcionalidad requiere transacciones, las cuales pueden ser garantizadas por medio de mongoose (TODO)
+
 ## Descripción Inicial Del Reto
 A continuación se muestra la descripción de reto
 
