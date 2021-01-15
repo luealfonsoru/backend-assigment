@@ -23,10 +23,10 @@ La colección de Postman con los endpoint de la API puede encontrarse [aquí] (h
 ## Base de datos
 Se decisió usar Mongoose por facilidad, una única funcionalidad requiere transacciones, las cuales pueden ser garantizadas por medio de mongoose (TODO)
 
+**Nota: la asignación de problemas a agentes se realiza por medio de cron job para garantizar que se ejecuten en fila o queue, éste se ejecuta cada 30 segundos; por lo tanto la asignación no es inmediata.**
+
 ## Descripción Inicial Del Reto
 A continuación se muestra la descripción de reto
-
-**Nota: la asignación de problemas a agentes se realiza por medio de cron job para garantizar que se ejecuten en fila o queue, éste se ejecuta cada 30 segundos; por lo tanto la asignación no es inmediata.**
 
 > ### Contexto
 > El soporte de nuestros usuarios es muy importante en DocRed. Nuestros agentes quieren ser mas eficientes en la resolución de los problemas o consultas que nuestros usuarios puedan tener. Para eso, se decidio construir un software para automatizar el proceso - el software que tu vas a construir.
