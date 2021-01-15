@@ -1,11 +1,12 @@
 import { Schema, Model, model } from 'mongoose'
+import { IIssue } from './Issue'
 
 interface IUser {
     username: string,
     role: string,
-    pastIssuesList?: Array<any>,
+    pastIssuesList?: Array<IIssue>,
     bussy: boolean,
-    issueSolving: any
+    issueSolving?: IIssue
 }
 
 interface UserModelInterface extends Model<any> {
@@ -27,7 +28,7 @@ const userSchema = new Schema({
     },
     bussy: {
         type: Boolean,
-        required: false
+        required: true
     },
     issueSolving: {
         type: Object,

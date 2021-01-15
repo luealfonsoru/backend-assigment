@@ -2,7 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 
 import UserDao from '@daos/User/UserDao';
-import { paramMissingError, IRequest } from '@shared/constants';
+import { paramMissingError, IRequestUser } from '@shared/constants';
 
 const router = Router();
 const userDao = new UserDao();
@@ -31,7 +31,7 @@ router.get('/', async (req: Request, res: Response) => {
  *                       Add One - "POST /api/users"
  ******************************************************************************/
 
-router.post('/', async (req: IRequest, res: Response) => {
+router.post('/', async (req: IRequestUser, res: Response) => {
     const user = req.body;
     if (!user) {
         return res.status(BAD_REQUEST).json({
@@ -50,7 +50,7 @@ router.post('/', async (req: IRequest, res: Response) => {
  *                       Update - "PUT /api/users"
  ******************************************************************************/
 
-router.put('/', async (req: IRequest, res: Response) => {
+router.put('/', async (req: IRequestUser, res: Response) => {
     const user = req.body;
     if (!user) {
         return res.status(BAD_REQUEST).json({
