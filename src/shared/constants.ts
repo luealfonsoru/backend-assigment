@@ -14,3 +14,10 @@ export interface IRequestIssue extends Request {
         createdBy: string  
     }
 } 
+
+export interface IRequestSolve extends Request {
+    body: {
+        id: string,
+        agentUsername: string  
+    }
+}

@@ -17,9 +17,9 @@ const { BAD_REQUEST, CREATED, OK, NOT_FOUND } = StatusCodes;
 router.get('/', async (req: Request, res: Response) => {
     const { username } = req.query
     let users
-    if(username){
+    if (username) {
         users = await userDao.getOne(String(username));
-    }else{
+    } else {
         users = await userDao.getAll();
     }
     return res.status(OK).json({ users });
@@ -38,7 +38,7 @@ router.post('/', async (req: IRequestUser, res: Response) => {
             error: paramMissingError,
         });
     }
-    await userDao.add(user);
+    await userDao.add({ ...user, bussy: false });
     return res.status(CREATED).json({
         message: "success"
     });

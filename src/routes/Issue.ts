@@ -3,7 +3,7 @@ import { Request, Response, Router } from 'express';
 
 import IssueDao from '@daos/Issue/IssueDao';
 import UserDao from '@daos/User/UserDao';
-import { paramMissingError, IRequestIssue } from '@shared/constants';
+import { paramMissingError, IRequestIssue, IRequestSolve } from '@shared/constants';
 import { userInfo } from 'os';
 
 const router = Router();
@@ -41,7 +41,7 @@ router.post('/', async (req: IRequestIssue, res: Response) => {
 
     try {
         user = await userDao.getOne(issue.createdBy)
-        if(user.role !== 'default'){
+        if (user.role !== 'default') {
             return res.status(BAD_REQUEST).json({
                 error: 'El usuario no tiene los roles adecuados, solo los usuarios con rol "default" pueden reportar problemas en la plataforma :/',
             });
@@ -51,12 +51,32 @@ router.post('/', async (req: IRequestIssue, res: Response) => {
             error: e,
         });
     }
-    
+
     await issueDao.add({
         info: issue.info,
         assigned: false,
-        createdBy: issue.createdBy
+        createdBy: issue.createdBy,
     });
+    return res.status(CREATED).json({
+        message: "success"
+    });
+});
+
+/******************************************************************************
+ *                       Add One - "POST /api/issues"
+ ******************************************************************************/
+
+router.put('/solve', async (req: IRequestSolve, res: Response) => {
+    const issue = req.body;
+    let issueData;
+    if (!issue) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+
+    issueData = await issueDao.solveIssue(issue.id)
+    await userDao.makeNotBussy(issueData.solvingBy)
     return res.status(CREATED).json({
         message: "success"
     });

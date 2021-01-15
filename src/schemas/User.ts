@@ -4,9 +4,9 @@ import { IIssue } from './Issue'
 interface IUser {
     username: string,
     role: string,
-    pastIssuesList?: Array<IIssue>,
+    pastIssuesList?: Array<{id: string, name: string}>,
     bussy: boolean,
-    issueSolving?: IIssue
+    issueSolving?: {id: string, info: string}
 }
 
 interface UserModelInterface extends Model<any> {

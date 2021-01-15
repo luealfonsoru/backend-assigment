@@ -3,6 +3,7 @@ import { Schema, Model, model } from 'mongoose'
 interface IIssue {
     info: string,
     assigned: boolean,
+    solved?: boolean,
     createdBy: string,
     solvingBy?: string
 }
@@ -20,12 +21,16 @@ const issueSchema = new Schema({
         type: Boolean,
         required: true
     },
-    createdBy: {
-        type: Object,
+    solved: {
+        type: Boolean,
         required: false
     },
+    createdBy: {
+        type: String,
+        required: true
+    },
     solvingBy: {
-        type: Object,
+        type: String,
         required: false
     }
 })

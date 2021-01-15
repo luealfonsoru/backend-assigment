@@ -2,9 +2,11 @@ import { User, IUser } from '@schemas/User';
 
 export interface IUserDao {
     getOne: (username: string) => Promise<any>;
+    getNotBussy: () => Promise<any>;
     getAll: () => Promise<any>;
     add: (user: IUser) => Promise<any>;
     update: (user: IUser) => Promise<any>;
+    assignIssue: (username: string, info: string, issueId: string) => Promise<any>;
 }
 
 class UserDao implements IUserDao {
@@ -16,6 +18,44 @@ class UserDao implements IUserDao {
     public async getOne(username: string): Promise<any> {
         console.log(username)
         return await User.findOne({ username: username }).exec()
+    }
+
+    /**
+     * 
+     */
+    public async getNotBussy(): Promise<any> {
+        return await User.findOne({ bussy: false, role: "agent" }).exec()
+    }
+
+    public async makeNotBussy(username: string): Promise<any> {
+        const user = await User.findOne({ username: username }).exec()
+        return await User.findOneAndUpdate({ username: username },
+            {
+                $addToSet:{
+                    'pastIssuesList':user.issueSolving
+                },
+                $set:{
+                    'bussy': false,
+                    'issueSolving': {}
+                },
+            })
+    }
+
+    /**
+     *
+     * @param username
+     * @param info
+     * @param issueId
+     */
+
+    public async assignIssue(username: string, info: string, issueId: string): Promise<any> {
+        return await User.updateOne({ username: username }, {
+            $set: {
+                'issueSolving.id': issueId,
+                'issueSolving.info': info,
+                'bussy': true
+            }
+        })
     }
 
 
@@ -45,7 +85,7 @@ class UserDao implements IUserDao {
         const updateUser = await User.findOneAndUpdate({ username: user.username }, {
             $set: { ...user }
         })
-        if(updateUser === null){
+        if (updateUser === null) {
             throw "User not found"
         }
         return updateUser
